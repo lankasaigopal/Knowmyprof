@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            padding: 40px;
+            border-radius: 12px;
+            background-color: #ffffff;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .icon.warning {
+            color: #ff6b6b;
+        }
+
+        .icon.info {
+            color: #f6ad55;
+        }
+
+        .message {
+            font-size: 20px;
+            color: #444;
+            margin-bottom: 25px;
+        }
+
+        .action-btn {
+            padding: 12px 30px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        .signup-btn {
+            background-color: #38a169;
+        }
+
+        .signup-btn:hover {
+            background-color: #2f855a;
+        }
+
+        .login-btn {
+            background-color: #38a169;
+        }
+
+        .login-btn:hover {
+            background-color: #2f855a;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="icon" class="icon"></div>
+    <div id="message" class="message"></div>
+    <a id="actionBtn" href="#" class="action-btn"></a>
+</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get("type");
+
+    const iconEl = document.getElementById("icon");
+    const messageEl = document.getElementById("message");
+    const actionBtn = document.getElementById("actionBtn");
+
+    // Message mappings
+    const messages = {
+        exists: {
+            icon: "⚠️",
+            text: "Email already exists. Please log in instead.",
+            btnText: "Login",
+            btnLink: "/index.html",
+            btnClass: "login-btn"
+        },
+        notfound: {
+            icon: "❌",
+            text: "No account found with that email. Please sign up.",
+            btnText: "Sign Up",
+            btnLink: "/signup",
+            btnClass: "signup-btn"
+        },
+        invalid: {
+            icon: "🔒",
+            text: "Incorrect password. Please try again.",
+            btnText: "Login Again",
+            btnLink: "/index.html",
+            btnClass: "login-btn"
+        },
+        invalidotp: {
+            icon: "🕑",
+            text: "Invalid or expired OTP. Try again.",
+            btnText: "Resend OTP",
+            btnLink: "/forgot-password.html",
+            btnClass: "login-btn"
+        },
+        updatefail: {
+            icon: "⚠️",
+            text: "Password reset failed. Try again.",
+            btnText: "Try Again",
+            btnLink: "/reset-password.html",
+            btnClass: "login-btn"
+        },
+        googleauth: {
+            icon: "🔐",
+            text: "Your account is connected to Google. Please use the Google button to log in.",
+            btnText: "Login with Google",
+            btnLink: "http://localhost:3000/auth/google?mode=login",
+            btnClass: "login-btn"
+        }        
+    };
+
+    const errorData = messages[type] || {
+        icon: "⚠️",
+        text: "Something went wrong. Please try again.",
+        btnText: "Home",
+        btnLink: "/index.html",
+        btnClass: "login-btn"
+    };
+
+    iconEl.textContent = errorData.icon;
+    messageEl.textContent = errorData.text;
+    actionBtn.textContent = errorData.btnText;
+    actionBtn.href = errorData.btnLink;
+    actionBtn.classList.add(errorData.btnClass);
+</script>
+
+   
+</body>
+</html>

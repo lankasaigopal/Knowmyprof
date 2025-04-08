@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            width: 80%;
+            max-width: 1000px;
+            box-shadow: 0px 0px 30px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .left {
+            width: 45%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Left align form */
+            flex-direction: column;
+            padding: 60px;
+            background-color: white;
+        }
+
+        .right {
+            width: 45%;
+            background: url('signup_image.png') no-repeat center center;
+            background-size: cover;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        .signup-btn {
+            width: 95%;
+            padding: 12px;
+            background-color: #3c6e47;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        .signup-btn:hover {
+            background-color: #2e5435;
+        }
+
+        /* OR Divider Styling */
+        .or-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+            width:97%;
+        }
+
+        .or-divider::before,
+        .or-divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #ccc;
+            margin: 0 10px;
+        }
+
+        .or-divider span {
+            font-size: 14px;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            background: white;
+        }
+
+        .social-btn img {
+            width: 20px;
+        }
+
+        .google { border: 1px solid #ccc; }
+        .microsoft { border: 1px solid #ccc; }
+
+        .terms {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .terms input {
+            margin-right: 8px;
+            width: auto;
+        }
+
+        .signin-link {
+            margin-top: 15px;
+            font-size: 14px;
+            text-align: center; /* Centering only this text */
+            width: 100%;
+        }
+
+        .signin-link a {
+            color: #0078D4;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signin-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Left Section: Signup Form -->
+        <div class="left">
+            <h1>Get Started Now</h1>
+            
+            <form action="/signup" method="POST" style="width:100%; display:flex; flex-direction:column;">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Enter your username" required>
+            
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="Enter your email" required>
+            
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter your password" required>
+            
+                <div class="terms">
+                    <input type="checkbox" required> 
+                    <span>I agree to the <a href="#">terms & policy</a></span>
+                </div>
+            
+                <button type="submit" class="signup-btn">Signup</button>
+            </form>
+            
+
+            <!-- OR Divider (Now Centered with Lines) -->
+            <div class="or-divider">
+                <span>OR</span>
+            </div>
+
+            <div class="social-buttons">
+                <button class="social-btn google" onclick="window.location.href='http://localhost:3000/auth/google?mode=signup'">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFFUTi1RsVDFSupmzDUJ5I3ZHBtwz043rbHQ&s">
+                    Sign up with Google
+                </button>                
+                <!-- <button class="social-btn microsoft">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg">
+                    Sign up with Microsoft
+                </button> -->
+            </div>
+
+            <p class="signin-link">Have an account? <a href="index.html">Sign In</a></p>
+        </div>
+
+        <!-- Right Section: Image -->
+        <div class="right"></div>
+    </div>
+
+    
+</body>
+</html>

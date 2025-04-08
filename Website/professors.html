@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: lightblue;
+            padding: 15px;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            position: fixed;
+        }
+        .header .nav {
+            display: flex;
+            gap: 20px;
+        }
+        .nav a {
+            color: black;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            text-align: left;
+            margin: 100px 0 20px 5%;
+        }
+
+        .professor-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 90%;
+            margin: auto;
+        }
+
+        .professor-card {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .professor-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .professor-name {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .professor-dept {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        @media (max-width: 900px) {
+            .professor-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .professor-grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+
+        footer {
+            background: lightblue;
+            color: black;
+            padding: 40px 0;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin-top: 50px;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: auto;
+            text-align: left;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 10px;
+        }
+
+        .footer-section p, .footer-section a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 15px;
+            right: 50px;
+            background: transparent;  /* Removes button background */
+            color: black;             /* Text color */
+            border: none;             /* Removes button border */
+            cursor: pointer;
+            font-size: 16px;          /* Adjust font size as needed */
+            text-decoration: none;    /* Ensures no underline by default */
+            font-weight: bold;        /* Makes text a bit more noticeable */
+        }
+       
+        .logout-btn:hover {
+            color: #58aad9;           /* Color change on hover */
+            text-decoration: underline; /* Adds underline on hover */
+        }
+        .site-title {
+            position: absolute;
+            left: 40px;
+            top: 13px;
+            font-size: 22px;
+            font-weight: bold;
+            font-family: 'Georgia', serif;
+            color: #000;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            letter-spacing: 1px;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+       
+
+    </style>
+</head>
+<body>
+   
+
+    <!-- Header -->
+    <div class="header">
+        <div class="nav">
+            <a href="mainpage.html">Home</a>
+            <a href="#about">About</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Contact</a>
+        </div>
+       
+        <div class="site-title">Know<span style="color:#0e0e0e;">My</span>Prof</div>
+        <button id="logout-btn" class="logout-btn">Logout</button>
+    </div>
+
+    <!-- Professors Content -->
+    <h1>Professors</h1>
+    <div class="professor-grid">
+        <div class="professor-card" data-id="P001" data-specialization="Machine Learning" data-experience="15 years">
+            <img src="professor1.png" alt="Professor 1">
+            <div class="professor-name">Prof. John Doe</div>
+            <div class="professor-dept">Professor, Department of Computer Science</div>
+        </div>
+       
+        <div class="professor-card" data-id="P002" data-specialization="Mathematical Modeling" data-experience="10 years">
+            <img src="professor2.png" alt="Professor 2">
+            <div class="professor-name">Dr. Alice Smith</div>
+            <div class="professor-dept">Assistant Professor, Department of Mathematics</div>
+        </div>
+       
+        <div class="professor-card" data-id="P003" data-specialization="Quantum Mechanics" data-experience="12 years">
+            <img src="professor3.jpeg" alt="Professor 3">
+            <div class="professor-name">Dr. Michael Brown</div>
+            <div class="professor-dept">Associate Professor, Department of Physics</div>
+        </div>
+       
+        <div class="professor-card" data-id="P004" data-specialization="Organic Chemistry" data-experience="8 years">
+            <img src="professor4.jpeg" alt="Professor 4">
+            <div class="professor-name">Prof. Emily Davis</div>
+            <div class="professor-dept">Professor, Department of Chemistry</div>
+        </div>
+       
+        <div class="professor-card" data-id="P005" data-specialization="Genetics and Microbiology" data-experience="14 years">
+            <img src="professor5.jpeg" alt="Professor 5">
+            <div class="professor-name">Dr. Robert Johnson</div>
+            <div class="professor-dept">Assistant Professor, Department of Biology</div>
+        </div>
+       
+        <div class="professor-card" data-id="P006" data-specialization="Structural Engineering" data-experience="20 years">
+            <img src="professor6.jpeg" alt="Professor 6">
+            <div class="professor-name">Dr. Sarah Wilson</div>
+            <div class="professor-dept">Professor, Department of Civil Engineering</div>
+        </div>
+       
+        <div class="professor-card" data-id="P007" data-specialization="Power Systems" data-experience="18 years">
+            <img src="professor7.jpeg" alt="Professor 7">
+            <div class="professor-name">Prof. Daniel Martinez</div>
+            <div class="professor-dept">Associate Professor, Department of Electrical Engineering</div>
+        </div>
+       
+        <div class="professor-card" data-id="P008" data-specialization="Thermodynamics" data-experience="11 years">
+            <img src="professor8.jpeg" alt="Professor 8">
+            <div class="professor-name">Dr. Jennifer Clark</div>
+            <div class="professor-dept">Assistant Professor, Department of Mechanical Engineering</div>
+        </div>
+       
+        <div class="professor-card" data-id="P009" data-specialization="Deep Learning" data-experience="9 years">
+            <img src="professor9.jpeg" alt="Professor 9">
+            <div class="professor-name">Prof. William Lee</div>
+            <div class="professor-dept">Professor, Department of Artificial Intelligence</div>
+        </div>
+       
+        <div class="professor-card" data-id="P010" data-specialization="Data Analytics" data-experience="13 years">
+            <img src="professor10.jpeg" alt="Professor 10">
+            <div class="professor-name">Dr. Olivia Hernandez</div>
+            <div class="professor-dept">Assistant Professor, Department of Data Science</div>
+        </div>
+       
+        <div class="professor-card" data-id="P011" data-specialization="Aerodynamics" data-experience="16 years">
+            <img src="professor11.jpeg" alt="Professor 11">
+            <div class="professor-name">Dr. David White</div>
+            <div class="professor-dept">Professor, Department of Aerospace Engineering</div>
+        </div>
+       
+        <div class="professor-card" data-id="P012" data-specialization="Cybersecurity" data-experience="10 years">
+            <img src="professor12.jpeg" alt="Professor 12">
+            <div class="professor-name">Prof. Isabella Thomas</div>
+            <div class="professor-dept">Professor, Department of Cybersecurity</div>
+        </div>
+       
+        <div class="professor-card" data-id="P013" data-specialization="Software Development" data-experience="7 years">
+            <img src="professor13.jpeg" alt="Professor 13">
+            <div class="professor-name">Dr. James Walker</div>
+            <div class="professor-dept">Assistant Professor, Department of Software Engineering</div>
+        </div>
+       
+        <div class="professor-card" data-id="P014" data-specialization="Climate Change" data-experience="15 years">
+            <img src="professor14.jpeg" alt="Professor 14">
+            <div class="professor-name">Prof. Sophia Scott</div>
+            <div class="professor-dept">Professor, Department of Environmental Science</div>
+        </div>
+       
+        <div class="professor-card" data-id="P015" data-specialization="Autonomous Systems" data-experience="17 years">
+            <img src="professor15.jpeg" alt="Professor 15">
+            <div class="professor-name">Dr. Andrew Lopez</div>
+            <div class="professor-dept">Associate Professor, Department of Robotics</div>
+        </div>
+       
+        <div class="professor-card" data-id="P016" data-specialization="Nanoelectronics" data-experience="9 years">
+            <img src="professor16.jpeg" alt="Professor 16">
+            <div class="professor-name">Prof. Grace Hall</div>
+            <div class="professor-dept">Professor, Department of Nanotechnology</div>
+        </div>
+       
+        <div class="professor-card" data-id="P017" data-specialization="Biomedical Imaging" data-experience="12 years">
+            <img src="professor17.jpeg" alt="Professor 17">
+            <div class="professor-name">Dr. Henry Young</div>
+            <div class="professor-dept">Assistant Professor, Department of Biomedical Engineering</div>
+        </div>
+       
+        <div class="professor-card" data-id="P018" data-specialization="Cognitive Psychology" data-experience="14 years">
+            <img src="professor18.jpeg" alt="Professor 18">
+            <div class="professor-name">Prof. Natalian Khabib King</div>
+            <div class="professor-dept">Professor, Department of Psychology</div>
+        </div>
+       
+        <div class="professor-card" data-id="P019" data-specialization="Market Analytics" data-experience="10 years">
+            <img src="professor19.jpeg" alt="Professor 19">
+            <div class="professor-name">Dr. Ryan Carter</div>
+            <div class="professor-dept">Associate Professor, Department of Business Analytics</div>
+        </div>
+       
+        <div class="professor-card" data-id="P020" data-specialization="Linguistic Analysis" data-experience="8 years">
+            <img src="professor20.jpeg" alt="Professor 20">
+            <div class="professor-name">Prof. Elizabeth Ramirez</div>
+            <div class="professor-dept">Professor, Department of Linguistics</div>
+        </div>
+       
+    </div>
+
+    <!-- Footer -->
+    <footer style="background: lightblue; color: black; padding: 40px 0; text-align: center; font-family: Arial, sans-serif;">
+        <div style="display: flex; justify-content: space-around; flex-wrap: wrap; max-width: 1200px; margin: auto;">
+           
+            <!-- About Us Section -->
+<div id="about" class="footer-section">
+    <h3>About Us</h3>
+    <p>The proper Footer on proper time can preserve you protection...</p>
+</div>
+
+<!-- Contact Us Section -->
+<div id="contact" class="footer-section">
+    <h3>Contact Us</h3>
+    <p>You can contact the developers through the mail...</p>
+                <p>Sample@gmail.com</p>
+                <p>sample2@gmail.com</p>
+                <p>Sample3@gmail.com</p>
+            </div>
+
+            <!-- Quick Links Section -->
+            <div style="flex: 1; min-width: 200px; text-align: left; padding: 10px;">
+                <h3>Quick Link</h3>
+                <p>&#10148; <a href="mainpage.html" style="color: black; text-decoration: none;">Home</a></p>
+                <p>&#10148; <a href="#about" style="color: black; text-decoration: none;">About Us</a></p>
+                <p>&#10148; <a href="#faq" style="color: black; text-decoration: none;">FAQs</a></p>
+                <p>&#10148; <a href="#contact" style="color: black; text-decoration: none;">Contact Us</a></p>
+            </div>
+
+            <!-- Blog Section -->
+            <div style="flex: 1; min-width: 200px; text-align: left; padding: 10px;">
+                <h3>Blog</h3>
+                <p>&#10148; Sumalatha Mam is an excellent professor.</p>
+                <p>8 Nov, 2021</p>
+                <p>&#10148; The tales of Professor Sumalatha and her students.</p>
+                <p>6 Jan, 2023</p>
+            </div>
+        </div>
+       
+    </footer>
+
+    <!-- Professor Modal -->
+<!-- Professor Modal -->
+<div id="professorModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center;">
+    <div class="modal-content" style="background: white; padding: 20px; border-radius: 10px; width: 50%; position: relative;">
+        <span class="close" onclick="closeModal()" style="position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer;">&times;</span>
+
+        <!-- Centered Title -->
+        <h2 id="modalTitle" style="text-align: center; margin-bottom: 5px;"></h2>
+        <p id="modalID" style="text-align: center; font-size: 1rem; margin-top: -5px; margin-bottom: 20px;"></p>
+
+        <!-- Image + Text -->
+        <div style="display: flex; align-items: flex-start; gap: 20px;">
+            <img id="modalImage" src="" alt="Professor" style="width: 250px; height: 200px; object-fit: cover; border-radius: 10px;">
+           
+            <!-- Updated spacing -->
+            <div style="text-align: left; display: flex; flex-direction: column; gap: 15px; margin-top: 25px;">
+                <p id="modalDesignation" style="font-size: 1rem; margin: 0;"></p>
+                <p id="modalSpecialization" style="font-size: 1rem; margin: 0;"></p>
+                <p id="modalExperience" style="font-size: 1rem; margin: 0;"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const professorCards = document.querySelectorAll(".professor-card");
+        const modal = document.getElementById("professorModal");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalImage = document.getElementById("modalImage");
+        const modalID = document.getElementById("modalID");
+        const modalDesignation = document.getElementById("modalDesignation");
+        const modalSpecialization = document.getElementById("modalSpecialization");
+        const modalExperience = document.getElementById("modalExperience");
+
+        professorCards.forEach(card => {
+            card.addEventListener("click", function() {
+                const name = this.querySelector(".professor-name").innerText;
+                const imageSrc = this.querySelector("img").src;
+                const designation = this.querySelector(".professor-dept").innerText;
+                const specialization = this.getAttribute("data-specialization");
+                const experience = this.getAttribute("data-experience");
+                const id = this.getAttribute("data-id");
+
+                modalTitle.innerText = name;
+                modalImage.src = imageSrc;
+                modalID.innerText = `Professor ID: ${id}`;
+                modalDesignation.innerText = `Designation: ${designation}`;
+                modalSpecialization.innerText = `Specialized in: ${specialization}`;
+                modalExperience.innerText = `Experience: ${experience}`;
+
+                modal.style.display = "flex";
+            });
+        });
+    });
+
+    function closeModal() {
+        document.getElementById("professorModal").style.display = "none";
+    }
+</script>
+<script>
+    document.getElementById('logout-btn').addEventListener('click', function() {
+        sessionStorage.clear(); // Optional: clear session
+        localStorage.clear();   // Optional: clear local storage
+        window.location.href = 'index.html';
+    });
+</script>
+
+</body>
+</html>

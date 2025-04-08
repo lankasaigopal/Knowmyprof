@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <title>Instructor Performance Prediction</title>
+  <style>
+    /* General Styling */
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Background Styling */
+    .container {
+      background-image: url("background.png");
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+    }
+
+    /* Title Styling */
+    h1 {
+      font-family: "Dancing Script", cursive;
+      font-size: 40px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Login Button Styling */
+    .login-btn {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 18px;
+      border: none;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: rgb(248, 245, 245);
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .login-btn:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Modal Styling */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      width: 350px;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* Social Login Buttons */
+    .social-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 15px 0;
+    }
+
+    .social-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 15px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      border-radius: 25px;
+      font-size: 14px;
+      background: white;
+      color: black;
+      font-weight: bold;
+    }
+
+    .social-btn img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .google {
+      border: 1px solid #ccc;
+    }
+
+    .divider {
+      width: 1px;
+      height: 20px;
+      background-color: #ccc;
+    }
+
+    .or-divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .or-divider::before,
+    .or-divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid #ccc;
+      margin: 0 10px;
+    }
+
+    .or-divider span {
+      font-size: 14px;
+      color: #666;
+      font-weight: bold;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 94%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .signin-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #0078D4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .signin-btn:hover {
+      background-color: #005fa3;
+    }
+
+    .forgot-password {
+      display: block;
+      text-align: right;
+      font-size: 12px;
+      margin: 5px 0;
+      color: #0078D4;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>
+      Instructor Performance Prediction <br />
+      and Visual Representation
+    </h1>
+    <button class="login-btn" onclick="openModal()">Login</button>
+  </div>
+
+  <!-- Modal Content Embedded Directly -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3>Sign in with your social account</h3>
+
+      <div class="social-buttons">
+        <button
+          class="social-btn google"
+          onclick="window.location.href='http://localhost:3000/auth/google?mode=login'"
+        >
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFFUTi1RsVDFSupmzDUJ5I3ZHBtwz043rbHQ&s"
+          />
+          Google
+        </button>
+      </div>
+
+      <div class="or-divider"><span>OR</span></div>
+
+      <h3>Sign in with your email</h3>
+      <form id="loginForm">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="Enter your email" required />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" name="password" placeholder="Password" required />
+        </div>
+        <a href="/forgot-password" class="forgot-password">Forgot your password?</a>
+        <button type="submit" class="signin-btn">Sign In</button>
+      </form>
+      <p>Don't have an account? <a href="/signup">Sign up now</a></p>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script>
+    function openModal() {
+      document.getElementById("loginModal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("loginModal").style.display = "none";
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("loginForm");
+
+      if (form) {
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const formData = new FormData(form);
+          const email = formData.get("email");
+          const password = formData.get("password");
+
+          try {
+            const response = await fetch("http://127.0.0.1:3000/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email, password }),
+            });
+
+            // 🔍 Log the full response object
+            console.log("Fetch response object:", response);
+
+            if (!response.ok) {
+              let errorMessage = "Unknown error";
+              try {
+                const errorData = await response.json();
+                errorMessage = errorData.message || errorMessage;
+              } catch (jsonErr) {
+                console.error("❌ Failed to parse error JSON:", jsonErr);
+              }            
+            
+              if (errorMessage.includes("Google")) {
+                // Redirect to error page with a new type
+                window.location.href = "/error.html?type=googleauth";
+              } else if (errorMessage.includes("User not found")) {
+                window.location.href = "/error.html?type=notfound";
+              } else if (errorMessage.includes("Invalid password")) {
+                window.location.href = "/error.html?type=invalid";
+              } else {
+                alert("Login failed: " + errorMessage);
+              }
+              return;
+            }            
+
+            const data = await response.json();
+            if (data.redirect) {
+              window.location.href = data.redirect;
+            } else {
+              alert("Login failed or no redirect.");
+              console.log("Response:", data);
+            }
+          } catch (err) {
+            console.error("Login error:", err);
+            alert("Something went wrong!" + err.message);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
