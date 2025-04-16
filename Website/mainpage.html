@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: white;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: lightblue;
+            padding: 15px;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            position: fixed;
+           
+
+        }
+        .header .nav {
+            display: flex;
+            gap: 20px;
+        }
+        .nav a {
+            color: black;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .heading {
+            position: relative;
+            margin-top: 80px;
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: black;
+            font-family: 'Georgia', serif;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        .video-container {
+            position: relative;
+            margin-top: 50px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            z-index: 10;
+        }
+        video {
+            width: 100%;
+            max-width: 100vw;
+            transition: width 0.5s ease-in-out, border-radius 0.5s ease-in-out;
+            border-radius: 0;
+        }
+        .content {
+            position: relative;
+            z-index: 5;
+            margin-top: 50px;
+            background: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .section-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .carousel-container {
+            position: relative;
+            /*width: calc(32.5% * 3);*/ /* = 97.5%, fits 3 perfectly */
+            width: 100%;
+            max-width: 1200px; 
+            margin: auto;
+            overflow: hidden;
+            
+        }
+        .carousel-wrapper {
+            display: flex;
+            gap: 0px; /* Added space between professors */
+            
+            justify-content: space-between;
+            transition: transform 0.5s ease-in-out;
+            scroll-behavior: smooth;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+        .carousel-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+        .box {
+            flex:0 0 33.33%;
+            height: 393px; /* matches your perfect image height */
+            width: 587px;  /* optional if you want fixed width */
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            border-radius: 10px;
+            overflow: hidden;
+            scroll-snap-align: start;
+            margin:0px;
+            padding:0;
+            
+        }
+        .box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* or use 'cover' if you're okay with light crop */
+            border-radius: 8px;
+            object-position:top;
+            margin:0;
+            padding: 0px; /* optional: gives some space around the image */
+            background-color: white; /* helps with odd-size images */
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 10;
+            border-radius: 50%;
+        }
+        .left-arrow {
+            left: 10px;
+        }
+        .right-arrow {
+            right: 10px;
+        }
+        .professor-card {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .professor-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .professor-name {
+            font-weight: bold;
+            font-size: 1.0rem;
+            margin-top: 10px;
+        }
+
+        .professor-dept {
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 900px) {
+            .professor-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .professor-grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+
+        .modal {
+            display: none;  /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            z-index: 1000; /* Ensure it appears above everything */
+        }
+       
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 50%;
+            position: relative;
+            text-align: center;
+        }
+       
+        .modal-body {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            justify-content: flex-start;
+        }
+       
+        .modal-body img {
+            width: 250px;
+            height: 250px;
+            object-fit: contain;
+            margin-left:20px;
+            border-radius: 10px;
+            background-color: white;
+        }
+       
+        .modal-text {
+            margin-bottom:40px;
+            text-align: left;
+        }
+       
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 7px;
+            right: 40px;
+            background: transparent;  /* Removes button background */
+            color: black;             /* Text color */
+            border: none;             /* Removes button border */
+            cursor: pointer;
+            font-size: 16px;          /* Adjust font size as needed */
+            text-decoration: none;    /* Ensures no underline by default */
+            font-weight: bold;        /* Makes text a bit more noticeable */
+        }
+       
+        .logout-btn:hover {
+            color: #58aad9;           /* Color change on hover */
+            text-decoration: underline; /* Adds underline on hover */
+        }
+       
+        .site-title {
+            position: absolute;
+            left: 40px;
+            top: 13px;
+            font-size: 22px;
+            font-weight: bold;
+            font-family: 'Georgia', serif;
+            color: #000;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            letter-spacing: 1px;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+       
+       
+       
+    </style>
+</head>
+<body>
+   
+
+    <div class="header">
+        <div class="nav">
+            <a href="mainpage.html">Home</a>
+            <a href="#about">About</a>
+            <!-- <a href="#faq">FAQ</a> -->
+            <a href="#contact">Contact</a>
+        </div>
+        <div class="site-title">Know<span style="color:#0e0e0e;">My</span>Prof</div>
+        <button id="logout-btn" class="logout-btn">Logout</button>
+    </div>
+    <div class="heading">Instructor Performance</div>
+    <div class="video-container">
+        <video id="video" autoplay loop muted>
+            <source src="mainpage_video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="content">
+        <div class="section-title">Know Your Professors</div>
+        <div class="carousel-container">
+            <button class="arrow left-arrow" onclick="scrollPrev()">&#10094;</button>
+            <div class="carousel-wrapper" id="carousel">
+                <div class="box" onclick="openProfessorPopup('Prof. John Doe', 'P001', 'Professor, Department of Computer Science', 'Machine Learning', '15 years', 'professor1.jpeg')">
+                    <div class="professor-card">
+                        <img src="professor1.jpeg" alt="Professor 1">
+                        <div class="professor-details">
+                            <div class="professor-name">Prof. John Doe</div>
+                            <div class="professor-dept">Professor, Department of Computer Science</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box" onclick="openProfessorPopup('Dr. Alice Smith', 'P002', 'Assistant Professor, Department of Mathematics', 'Mathematical Modeling', '10 years', 'professor2.jpeg')">
+                    <div class="professor-card">
+                        <img src="professor2.jpeg" alt="Professor 2">
+                        <div class="professor-details">
+                            <div class="professor-name">Dr. Alice Smith</div>
+                            <div class="professor-dept">Assistant Professor, Department of Mathematics</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box" onclick="openProfessorPopup('Dr. Michael Brown', 'P003', 'Associate Professor, Department of Physics', 'Quantum Mechanics', '12 years', 'professor3.jpeg')">
+                    <div class="professor-card">
+                        <img src="professor3.jpeg" alt="Professor 3">
+                        <div class="professor-details">
+                            <div class="professor-name">Dr. Michael Brown</div>
+                            <div class="professor-dept">Associate Professor, Department of Physics</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box" onclick="openProfessorPopup('Prof. Emily Davis', 'P004', 'Professor, Department of Chemistry', 'Organic Chemistry', '14 years', 'professor4.jpeg')">
+                    <div class="professor-card">
+                        <img src="professor4.jpeg" alt="Professor 4">
+                        <div class="professor-details">
+                            <div class="professor-name">Prof. Emily Davis</div>
+                            <div class="professor-dept">Professor, Department of Chemistry</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box" onclick="openProfessorPopup('Dr. Robert Johnson', 'P005', 'Assistant Professor, Department of Biology', 'Genetics', '9 years', 'professor5.jpeg')">
+                    <div class="professor-card">
+                        <img src="professor5.jpeg" alt="Professor 5">
+                        <div class="professor-details">
+                            <div class="professor-name">Dr. Robert Johnson</div>
+                            <div class="professor-dept">Assistant Professor, Department of Biology</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box" onclick="openProfessorPopup('Dr. Sarah Wilson', 'P006', 'Professor, Department of Civil Engineering', 'Structural Engineering', '16 years', 'professor6.jpeg')">
+                    <div class="professor-card">
+                        <img src="professor6.jpeg" alt="Professor 6">
+                        <div class="professor-details">
+                            <div class="professor-name">Dr. Sarah Wilson</div>
+                            <div class="professor-dept">Professor, Department of Civil Engineering</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="arrow right-arrow" onclick="scrollRight()">&#10095;</button>
+        </div>
+        <div style="width: 77%; margin: 0px auto 0; display: flex; justify-content: flex-end;">
+            <a href="professors.html" style="text-decoration: none; font-size: 18px; color: black; font-weight: bold;"
+               onmouseover="this.style.textDecoration='underline'"
+               onmouseout="this.style.textDecoration='none'">
+               See more >>
+            </a>
+        </div>
+    </div>
+<!-- Professor Ratings Section -->
+<div class="professor-rating-section">
+    <h2>Professor Ratings & Achievements</h2>
+
+    <!-- Search Mode Selection -->
+    <div class="search-mode">
+        <label><input type="radio" name="searchType" value="name" checked> <span>Search by Name</span></label>
+        <label><input type="radio" name="searchType" value="id"> <span>Search by ID</span></label>
+    </div>
+
+    <!-- Hybrid Searchable Input -->
+    <div class="search-container">
+        <div style="position: relative;">
+            <input type="text" id="professorSearchInput" placeholder="-- Select a Professor --" oninput="filterDropdown()" onkeypress="handleEnter(event)" autocomplete="off">
+            <div class="triangle" onclick="toggleDropdown()">▼</div>
+   
+            <!-- Hidden custom dropdown -->
+            <select id="professorSelect" size="5" onchange="selectFromDropdown()" style="display: none;"></select>
+        </div>
+        <button onclick="searchProfessor()">Search</button>
+        <button onclick="resetSearch()" id="resetBtn" style="display:none;">Reset</button>
+    </div>    
+ 
+    <!-- Rating Display -->
+    <div class="professor-rating-card" id="professorRatingCard" style="display: none;">
+        <img id="professorImage" src="" alt="Professor Image">
+        <h3 id="professorName"></h3>
+        <div class="rating-stars" id="ratingStars"></div>
+        <ul id="professorDetails"></ul>
+    </div>
+
+    <!-- View More Ratings -->
+    <div class="view-more">
+        <!-- <a href="professor_ratings.html">View All Ratings >></a> -->
+    </div>
+</div>
+
+<!-- CSS for Styling -->
+<style>
+    .professor-rating-section {
+        text-align: center;
+        padding: 40px;
+        background: white;
+    }
+   
+
+    .search-mode {
+        margin-bottom: 15px;
+        font-size: 18px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .search-mode span {
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .search-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        align-items: center;
+    }
+
+    #professorSearchInput {
+        padding: 10px;
+        width: 250px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+   
+    .triangle {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 16px;
+        color: #333;
+        z-index: 10;
+    }
+   
+    #professorSelect {
+        position: absolute;
+        top: 38px;
+        left: 0;
+        width: 100%;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-top: none;
+        border-radius: 0 0 5px 5px;
+        background: white;
+        z-index: 999;
+    }
+   
+    #professorSelect option {
+        padding: 8px;
+    }
+   
+    #professorSelect option:hover {
+        background: #f0f0f0;
+        cursor: pointer;
+    }    
+
+    input[type="text"] {
+        padding: 10px;
+        width: 250px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 10px 15px;
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    #resetBtn {
+        background: #dc3545;
+    }
+
+    .professor-rating-card {
+        margin: 20px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        text-align: center;
+    }
+
+    .professor-rating-card img {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        max-height: 250px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+   
+    .rating-stars {
+        font-size: 24px;
+        color: gold;
+        margin: 10px 0;
+    }
+    .professor-rating-card ul {
+        list-style-position: inside; /* Moves bullets inside the text */
+        padding-left: 0; /* Removes extra left padding */
+        text-align: left; /* Aligns text properly */
+        display: inline-block; /* Makes the list behave like text */
+    }
+    .view-more {
+        margin-top: 20px;
+    }
+
+    .view-more a {
+        text-decoration: none;
+        font-size: 18px;
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    .view-more a:hover {
+        text-decoration: underline;
+    }
+
+    .rating-stars span {
+        font-size: 32px;
+        margin: 0 2px;
+    }
+
+    #professorDropdown {
+        padding: 10px;
+        width: 250px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }    
+    html {
+        scroll-behavior: smooth;
+    }
+   
+</style>
+
+<!-- JavaScript for Dropdown, Search, and Reset -->
+<script>
+    const professorData = {}; // 🧠 Start empty, fill dynamically from MongoDB
+
+    function updateDropdown() {
+        const select = document.getElementById("professorSelect");
+        const searchType = document.querySelector('input[name="searchType"]:checked').value;
+        select.innerHTML = '';
+    
+        let sortedKeys = Object.keys(professorData);
+    
+        if (searchType === "id") {
+            sortedKeys.sort((a, b) => {
+                // Extract numeric part and compare
+                return parseInt(a.slice(1)) - parseInt(b.slice(1));
+            });
+        } else {
+            sortedKeys.sort((a, b) => {
+                return professorData[a].name.localeCompare(professorData[b].name);
+            });
+        }
+    
+        for (const key of sortedKeys) {
+            const option = document.createElement("option");
+            option.value = searchType === "id" ? key : professorData[key].name;
+            option.textContent = option.value;
+            select.appendChild(option);
+        }
+    }      
+
+    let isDropdownOpen = false;
+
+    function toggleDropdown() {
+        const select = document.getElementById("professorSelect");
+        isDropdownOpen = !isDropdownOpen;
+        select.style.display = isDropdownOpen ? "block" : "none";
+    }
+
+    function filterDropdown() {
+        const input = document.getElementById("professorSearchInput").value.toLowerCase();
+        const select = document.getElementById("professorSelect");
+        const searchType = document.querySelector('input[name="searchType"]:checked').value;
+   
+        select.innerHTML = '';
+        let matchCount = 0;
+   
+        for (const key in professorData) {
+            const value = searchType === "id" ? key : professorData[key].name;
+            if (value.toLowerCase().includes(input)) {
+                const option = document.createElement("option");
+                option.value = value;
+                option.textContent = value;
+                select.appendChild(option);
+                matchCount++;
+            }
+        }
+   
+        // Dynamically resize based on matches (max 5, min 1)
+        if (matchCount > 0) {
+            select.size = Math.min(matchCount, 5);  // show only as many as needed
+            select.style.display = "block";
+        } else {
+            select.style.display = "none";
+        }
+    }    
+
+    function selectFromDropdown() {
+        const select = document.getElementById("professorSelect");
+        const input = document.getElementById("professorSearchInput");
+        input.value = select.value;
+        select.style.display = "none";
+        isDropdownOpen = false;
+        searchProfessor(); // 🔥 Automatically triggers search on selection
+    }    
+
+    function generateStarHTML(rating) {
+        const fullStars = Math.floor(rating);
+        const hasHalf = rating % 1 >= 0.25 && rating % 1 < 0.75;
+        const roundUp = rating % 1 >= 0.75;
+        const finalFullStars = roundUp ? fullStars + 1 : fullStars;
+        const emptyStars = 5 - finalFullStars - (hasHalf ? 1 : 0);
+   
+        let html = '';
+        for (let i = 0; i < fullStars; i++) html += '<span style="color: gold;font-size: 40px;">★</span>';
+        if (hasHalf) html += '<span style="color: gold;font-size: 40px;">⯪</span>';
+        for (let i = 0; i < emptyStars; i++) html += '<span style="color: lightgray;font-size: 40px;">★</span>';
+        return html;
+    }
+   
+    function searchProfessor() {
+        const inputValue = document.getElementById("professorSearchInput").value;
+        const searchType = document.querySelector('input[name="searchType"]:checked').value;
+   
+        let professorKey = searchType === "id" ? inputValue :
+            Object.keys(professorData).find(key => professorData[key].name === inputValue);
+   
+        if (professorData[professorKey]) {
+            const data = professorData[professorKey];
+            document.getElementById("professorRatingCard").style.display = "block";
+            document.getElementById("professorImage").src = data.image;
+            document.getElementById("professorName").innerText = data.name;
+            document.getElementById("ratingStars").innerHTML = generateStarHTML(data.rating);
+            document.getElementById("professorDetails").innerHTML = data.details.map(detail => `<li>${detail}</li>`).join("");
+            document.getElementById("resetBtn").style.display = "inline-block";
+        } else {
+            alert("Please select a valid professor.");
+        }
+    }    
+
+    function handleEnter(event) {
+        if (event.key === "Enter") {
+            searchProfessor();
+        }
+    }    
+   
+    function resetSearch() {
+        document.getElementById("professorSearchInput").value = "";
+        document.getElementById("professorSelect").style.display = "none";
+        document.getElementById("professorRatingCard").style.display = "none";
+        document.getElementById("resetBtn").style.display = "none";
+    }    
+
+    document.querySelectorAll('input[name="searchType"]').forEach(radio => {
+        radio.addEventListener("change", () => {
+            resetSearch();
+            updateDropdown();
+        });
+    });
+
+    // Initialize dropdown
+    updateDropdown();
+
+    // Trigger dropdown refresh when user clicks into the input
+    //document.getElementById("professorSearchInput").addEventListener("focus", updateDropdown);
+   
+   
+</script>
+
+
+
+
+
+    <!-- Footer Section (Only Added This) -->
+    <footer style="background: lightblue; color: black; padding: 40px 0; text-align: center; font-family: Arial, sans-serif;">
+        <div style="display: flex; justify-content: space-around; flex-wrap: wrap; max-width: 1200px; margin: auto;">
+           
+            <!-- About Us Section -->
+            <div id="about" style="flex: 1; min-width: 200px; text-align: left; padding: 10px;">
+                <h3>About Us</h3>
+                <p>Welcome to KnowMyProf!
+                    At KnowMyProf, we believe that choosing the right professor plays a key role in a student's academic journey. Our platform helps students make informed decisions by providing insights into professors’ performance, achievements, and teaching styles.</p>
+            </div>
+
+            <!-- Contact Us Section -->
+            <div id="contact" style="flex: 1; min-width: 200px; text-align: left; padding: 10px;">
+                <h3>Contact Us</h3>
+                <p>You can contact the developers through the mail.</p>
+                <p>gopal_lanka@srmap.edu.in</p>
+                <p>namratha_a@srmap.edu.in</p>
+                <p>haasitha_ambati@srmap.edu.in</p>
+            </div>
+
+            <!-- Quick Links Section -->
+            <div style="flex: 1; min-width: 200px; text-align: left; padding: 10px;">
+                <h3>Quick Link</h3>
+                <p>&#10148; <a href="mainpage.html" style="color: black; text-decoration: none;">Home</a></p>
+                <p>&#10148; <a href="#about" style="color: black; text-decoration: none;">About Us</a></p>
+                <!-- <p>&#10148; <a href="#faq" style="color: black; text-decoration: none;">FAQs</a></p> -->
+                <p>&#10148; <a href="#contact" style="color: black; text-decoration: none;">Contact Us</a></p>
+            </div>
+
+            <!-- Blog Section -->
+            <div style="flex: 1; min-width: 200px; text-align: left; padding: 10px;">
+                <h3>Blog</h3>
+                <p>&#10148; Sumalatha Mam is an excellent professor.</p>
+                <p>8 Nov, 2021</p>
+                <p>&#10148; The tales of Professor Sumalatha and her students.</p>
+                <p>6 Jan, 2023</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const carousel = document.getElementById("carousel");
+
+        function scrollPrev() {
+            carousel.scrollBy({ left: -carousel.clientWidth, behavior: "smooth" });
+        }
+
+        function scrollRight() {
+            carousel.scrollBy({ left: carousel.clientWidth, behavior: "smooth" });
+        }
+
+        window.addEventListener("scroll", function () {
+            let video = document.getElementById("video");
+            let scrollY = window.scrollY;
+            let newWidth = Math.max(30, 100 - scrollY / 10);
+            video.style.width = newWidth + "%";
+            video.style.borderRadius = scrollY > 10 ? "20px" : "0";
+        });
+    </script>
+   
+<!-- Professor Pop-up Modal -->
+<div id="professorModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeProfessorPopup()">&times;</span>
+        <h2 id="modalTitle"></h2>
+        <div class="modal-body">
+            <img id="modalImage" src="" alt="Professor">
+            <div class="modal-text">
+                <p id="modalDesignation"></p>
+                <p id="modalSpecialization"></p>
+                <p id="modalExperience"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openProfessorPopup(name, profId, designation, specialization, experience, imageSrc) {
+        document.getElementById("modalTitle").innerHTML = `${profId} - ${name}`;
+        document.getElementById("modalImage").src = imageSrc;
+        document.getElementById("modalDesignation").innerText = `Designation: ${designation}`;
+        document.getElementById("modalSpecialization").innerText = `Specialized in: ${specialization}`;
+        document.getElementById("modalExperience").innerText = `Experience: ${experience}`;
+       
+        let modal = document.getElementById("professorModal");
+        modal.style.display = "flex";  // Ensure modal is set to display flex
+    }
+
+    function closeProfessorPopup() {
+        document.getElementById("professorModal").style.display = "none";
+    }
+
+    // Close the modal when clicking outside of it
+    window.onclick = function(event) {
+        let modal = document.getElementById("professorModal");
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+<script>
+    document.getElementById('logout-btn').addEventListener('click', function() {
+        sessionStorage.clear(); // Optional: clear session
+        localStorage.clear();   // Optional: clear local storage
+        window.location.href = 'index.html';
+    });
+</script>
+
+<script>
+    const imageMap = {
+        "Prof. John Doe": "professor1.jpeg",
+        "Dr. Alice Smith": "professor2.jpeg",
+        "Dr. Michael Brown": "professor3.jpeg",
+        "Prof. Emily Davis": "professor4.jpeg",
+        "Dr. Robert Johnson": "professor5.jpeg",
+        "Dr. Sarah Wilson": "professor6.jpeg",
+        "Prof. Daniel Martinez": "professor7.jpeg",
+        "Dr. Jennifer Clark": "professor8.jpeg",
+        "Prof. William Lee": "professor9.jpeg",
+        "Dr. Olivia Hernandez": "professor10.jpeg",
+        "Dr. David White": "professor11.jpeg",
+        "Prof. Isabella Thomas": "professor12.jpeg",
+        "Dr. James Walker": "professor13.jpeg",
+        "Prof. Sophia Scott": "professor14.jpeg",
+        "Dr. Andrew Lopez": "professor15.jpeg",
+        "Prof. Grace Hall": "professor16.jpeg",
+        "Dr. Henry Young": "professor17.jpeg",
+        "Prof. Natalian Khabib King": "professor18.jpeg",
+        "Dr. Ryan Carter": "professor19.jpeg",
+        "Prof. Elizabeth Ramirez": "professor20.jpeg"
+    };
+   
+    async function loadProfessorRatings() {
+        console.log("🚀 Fetching professor data...");
+        const response = await fetch("https://knowmyprof.onrender.com/api/ratings");
+        console.log("✅ Got response:", response);
+        const professors = await response.json();
+   
+        const customDetails = {
+            "P001": [
+                "Over 15 Years of Teaching Experience",
+                "Published 30+ Research Papers",
+                "Supervised 10+ PhD Dissertations"
+            ],
+            "P002": [
+                "Expert in Mathematical Modeling",
+                "12 Years of Teaching Experience",
+                "Awarded Best Researcher 2022"
+            ],
+            "P003": [
+                "Quantum Mechanics Expert",
+                "10+ Research Publications",
+                "8 Years of Industry Experience"
+            ],
+            "P004": [
+                "Expert in Organic Chemistry",
+                "Published 20+ Research Papers",
+                "Guided multiple PhD students"
+            ],
+            "P005": [
+                "Specialist in Genetics and Microbiology",
+                "14 Years of Experience",
+                "Collaborated on 50+ research projects"
+            ],
+            "P006": [
+                "Structural Engineering Researcher",
+                "20 Years of Experience",
+                "Worked on major global infrastructure projects"
+            ],
+            "P007": [
+                "18+ Years of Academic Experience",
+                "Expert in Distributed Systems",
+                "Authored Several International Conference Papers"
+            ],
+            "P008": [
+                "12 Years in Data Science Research",
+                "Published 25+ Papers in Top-Tier Journals",
+                "Speaker at AI & ML Symposium 2023"
+            ],
+            "P009": [
+                "Over 20 Years of Teaching & Research",
+                "Renowned Expert in Electrical Circuits",
+                "Mentored 15+ Postgraduate Theses"
+            ],
+            "P010": [
+                "10 Years of Research in Biomedical Engineering",
+                "Published 20+ Research Articles",
+                "Collaborated with Global Health Institutes"
+            ],
+            "P011": [
+                "16 Years of Teaching Experience",
+                "Specialist in Renewable Energy Systems",
+                "Delivered TEDx Talk on Sustainable Tech"
+            ],
+            "P012": [
+                "14 Years in Academia",
+                "Expert in Environmental Chemistry",
+                "Conducted Government-Funded Research Projects"
+            ],
+            "P013": [
+                "Cybersecurity Specialist with 11 Years Experience",
+                "Published in IEEE Security Journals",
+                "Member of ACM and CSI Research Board"
+            ],
+            "P014": [
+                "Renowned for Work in Cognitive Psychology",
+                "13 Years Teaching at Graduate Level",
+                "Conducted Field Research in 5 Countries"
+            ],
+            "P015": [
+                "9+ Years in Robotics & Automation",
+                "Led Industrial Research Collaborations",
+                "Authored 18 Technical Papers"
+            ],
+            "P016": [
+                "22 Years of Service in Engineering Education",
+                "Developed National-Level Curriculum Framework",
+                "Recognized for Excellence in Mentorship"
+            ],
+            "P017": [
+                "Specialist in Nanotechnology Applications",
+                "30+ Published Articles",
+                "Guest Editor of ScienceTech Journal"
+            ],
+            "P018": [
+                "15 Years of International Teaching Experience",
+                "Led Interdisciplinary Research Projects",
+                "Fluent in 3 Languages, Contributor to Global Conferences"
+            ],
+            "P019": [
+                "8 Years in Cloud Computing & IoT",
+                "Presented Research at IEEE IC2E 2022",
+                "Received Young Innovator Award"
+            ],
+            "P020": [
+                "17 Years in Academic Leadership",
+                "Expert in Financial Analytics",
+                "Guided Numerous MBA and PhD Projects"
+            ]
+        };
+   
+        for (const prof of professors) {
+            let starRating = parseFloat(prof.average_rating.toFixed(1));
+            if (starRating > 5) starRating = 5;
+            if (starRating < 0) starRating = 0;
+   
+            professorData[prof.prof_id] = {
+                id: prof.prof_id,
+                name: prof.name,
+                image: imageMap[prof.name] || "default_professor.jpeg",
+                rating: starRating,
+                details: customDetails[prof.prof_id] || [
+                    `Average Rating: ${prof.average_rating}`,
+                    "Details coming soon..."
+                ]
+            };
+        }
+        console.log("✅ Loaded professors:", professorData);
+        
+        document.getElementById("professorSearchInput").addEventListener("focus", () => {
+            updateDropdown();
+        });    
+        updateDropdown();
+    }    
+   
+    loadProfessorRatings();
+    
+
+    </script>
+   
+</body>
+</html>
